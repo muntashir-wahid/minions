@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+// -------------------------- //
+// Minion Schema deffination
+// ------------------------- //
 const minionSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -20,6 +23,7 @@ const minionSchema = new mongoose.Schema({
   },
 });
 
+// Minion model created out of the minion schema
 const Minion = mongoose.model("Minion", minionSchema);
 
 module.exports = Minion;

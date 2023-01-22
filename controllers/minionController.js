@@ -1,5 +1,8 @@
 const Minion = require("./../models/minionModel");
 
+// ---------------------------- //
+// Hadler for creating a minion
+// ---------------------------- //
 exports.createMinion = async (req, res, next) => {
   try {
     const minion = await Minion.create(req.body);
@@ -14,6 +17,10 @@ exports.createMinion = async (req, res, next) => {
     next(err);
   }
 };
+
+// ------------------------------ //
+// Hadler for getting all minions
+// ------------------------------ //
 
 exports.getMinions = async (req, res, next) => {
   try {
@@ -30,6 +37,10 @@ exports.getMinions = async (req, res, next) => {
     next(err);
   }
 };
+
+// --------------------------- //
+// Hadler for getting a minion
+// --------------------------- //
 
 exports.getMinion = async (req, res, next) => {
   try {
@@ -51,6 +62,10 @@ exports.getMinion = async (req, res, next) => {
   }
 };
 
+// ----------------------------- //
+// Hadler for deleting a minion
+// ---------------------------- //
+
 exports.deleteMinion = async (req, res, next) => {
   try {
     const minion = await Minion.findByIdAndDelete(req.params.id);
@@ -68,6 +83,10 @@ exports.deleteMinion = async (req, res, next) => {
     next(err);
   }
 };
+
+// ----------------------------- //
+// Hadler for updating a minion
+// ---------------------------- //
 
 exports.updateMinion = async (req, res, next) => {
   try {
