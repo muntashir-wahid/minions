@@ -1,6 +1,6 @@
 const Minion = require("./../models/minionModel");
 
-exports.createMinion = async (req, res) => {
+exports.createMinion = async (req, res, next) => {
   try {
     const minion = await Minion.create(req.body);
 
@@ -11,14 +11,11 @@ exports.createMinion = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      error: err,
-    });
+    next(err);
   }
 };
 
-exports.getMinions = async (req, res) => {
+exports.getMinions = async (req, res, next) => {
   try {
     const minions = await Minion.find().select("-__v");
 
@@ -30,18 +27,18 @@ exports.getMinions = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      error: {
-        err,
-      },
-    });
+    next(err);
   }
 };
 
-exports.getMinion = async (req, res) => {
+exports.getMinion = async (req, res, next) => {
   try {
     const minion = await Minion.findById(req.params.id).select("-__v");
+
+    if (!minion) {
+      const err = new Error("Can't find minion with the id");
+      return next(err);
+    }
 
     res.status(200).json({
       status: "success",
@@ -50,39 +47,39 @@ exports.getMinion = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      error: {
-        err,
-      },
-    });
+    next(err);
   }
 };
 
-exports.deleteMinion = async (req, res) => {
+exports.deleteMinion = async (req, res, next) => {
   try {
-    await Minion.findByIdAndDelete(req.params.id);
+    const minion = await Minion.findByIdAndDelete(req.params.id);
+
+    if (!minion) {
+      const err = new Error("Can't find minion with the id");
+      return next(err);
+    }
 
     res.status(204).json({
       status: "success",
       data: null,
     });
   } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      error: {
-        err,
-      },
-    });
+    next(err);
   }
 };
 
-exports.updateMinion = async (req, res) => {
+exports.updateMinion = async (req, res, next) => {
   try {
     const minion = await Minion.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     }).select("-__v");
+
+    if (!minion) {
+      const err = new Error("Can't find minion with the id");
+      return next(err);
+    }
 
     res.status(200).json({
       status: "success",
@@ -91,11 +88,6 @@ exports.updateMinion = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      error: {
-        err,
-      },
-    });
+    next(err);
   }
 };

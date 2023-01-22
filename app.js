@@ -14,10 +14,18 @@ app.use(cors());
 // Roures
 app.use("/api/v1/minions", minionRouter);
 
-app.all("*", (req, res) => {
+// Unhandled route handlers
+app.all("*", (req, res, next) => {
+  next(err);
+});
+
+// Globar error handler
+app.use((err, req, res, next) => {
+  console.log("ERROR 💥", err);
+
   res.status(404).json({
-    status: 404,
-    message: `can't find ${req.originalUrl} in the server.`,
+    status: "fail",
+    message: "Something went wrong.Please try again",
   });
 });
 
