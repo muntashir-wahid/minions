@@ -9,7 +9,7 @@ Minions is a simple API server created with node.js. Here I used MongoDB as a da
 ```javascript
 {
     name: "Bob",
-    age: "10",
+    age: 10,
     color: "red"
 }
 ```
